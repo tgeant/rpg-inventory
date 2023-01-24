@@ -1,0 +1,7 @@
+{
+  "generator-apirest": {
+    "srcDir": "src",
+    "apiDir": "api",
+    "authMethods": []
+  }
+}
