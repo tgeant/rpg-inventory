@@ -13,8 +13,9 @@
      :columns= "[
      {
           field: 'itemNumber',
-          label: 'Nombre',
-          type: 'number'
+          label: 'Quantité',
+          type: 'number',
+          min: '0'
         },
         {
           field: 'name',
@@ -24,17 +25,21 @@
         {
           field: 'description',
           label: 'Description',
-          type: 'textArea'
+          type: 'textarea'
         },
         {
           field: 'weight',
           label: 'Poids',
-          type: 'number'
+          type: 'number',
+          min: '0',
+          step: '0.01'
         },
         {
           field: 'price',
           label: 'Prix (PO)',
-          type: 'number'
+          type: 'number',
+          min: '0',
+          step: '0.01'
         },
       ]"
       labelButtonEdit="Sauvegarder"

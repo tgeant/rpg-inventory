@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import InventoryList from '../views/InventoryList.vue'
 import InventoryDetail from '../views/InventoryDetail.vue'
+import InventoryEdit from '../views/InventoryEdit.vue'
 import ItemDetail from '../views/ItemDetail.vue'
 
 Vue.use(VueRouter)
@@ -16,6 +17,11 @@ const routes = [
     path: '/inventories/:id',
     name: 'Inventaire',
     component: InventoryDetail
+  },
+  {
+    path: '/inventories/:id/edit',
+    name: 'Inventaire',
+    component: InventoryEdit
   },
   {
     path: '/inventories/:idInventory/items/:id',

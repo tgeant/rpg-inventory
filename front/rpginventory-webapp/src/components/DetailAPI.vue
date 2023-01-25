@@ -7,7 +7,8 @@
         v-for="(column, index) in columns"
         :key="index"
         :label="column.label">
-            <b-input :type="column.type" v-model="data[column.field]" :readonly="readOnly"></b-input>
+            <b-input :type="column.type" v-model="data[column.field]" :readonly="readOnly" 
+            :step="column.step" :min="column.min" :max="column.max"></b-input>
         </b-field>
 
         <b-field>

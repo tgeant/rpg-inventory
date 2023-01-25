@@ -51,7 +51,7 @@
         <b-table-column 
         field="actions" label="Actions" width="200" v-slot="props">
           <div class="buttons">
-                <b-button type="is-primary" @click="edit(props.row)" > 
+                <b-button type="is-primary" @click="show(props.row)" > 
                   <b-icon  v-if="!props.row.readOnly" icon="pencil"></b-icon> 
                   <b-icon  v-if="props.row.readOnly" icon="eye-outline"></b-icon> 
                   </b-button>
@@ -149,6 +149,8 @@ export default {
               new Date(item.createdAt).toLocaleTimeString())
           : (item.createdAt = "unknown");
 
+          //TODO: transform data
+
         // For each item, is user authorized to modify ?
         item.readOnly = !this.forceEdit && !(ApiHandlerService.isCurrentUserAdmin() || JSON.parse(localStorage.user).id == item.author.id);
 
@@ -186,8 +188,11 @@ export default {
     refresh() {
       this.loadAsyncData();
     },
-    edit(row) {
+    show(row) {
       this.$router.push(this.redirectURL + "/"+ row.id);
+    },
+    edit(row) {
+      this.$router.push(this.redirectURL + "/"+ row.id + "/edit");
     },
     remove(row) {
       ApiHandlerService.delete(

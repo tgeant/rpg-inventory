@@ -1,33 +1,23 @@
 <template>
+  <div>
   <section class="section">
     <b-breadcrumb separator="has-succeeds-separator">
       <b-breadcrumb-item tag='router-link' to="/">Inventaires</b-breadcrumb-item>
       <b-breadcrumb-item tag='router-link' :to="'/inventories/'+$route.params.id" active>Détail inventaire</b-breadcrumb-item>
     </b-breadcrumb>
 
-    <h1 class="title">Détail Inventaire</h1>
+      <div>
+        <p class="control">
+        <b-button class="button is-primary" tag="router-link"
+                :to="$route.path + '/edit'"
+                type="is-link"><b-icon icon="pencil"></b-icon> &nbsp;Editer l'inventaire</b-button>
+      </p>
+      </div>
 
-     <DetailAPI
-     endpoint="inventories"
-     :columns= "[
-        {
-          field: 'name',
-          label: 'Nom',
-          type: 'text'
-        },
-        {
-          field: 'weightMax',
-          label: 'Poids Max',
-          type: 'number'
-        },
-      ]"
-      labelButtonEdit="Sauvegarder"
-      labelButtonCreate="Créer"
-      :forceEdit=true
-      />
+    </section>
 
-      <div v-if="$route.params.id!='create'">
-      <h2 class="title">Liste des items de l'inventaire</h2>
+    <section class="section">
+      <h1 class="title">Liste des items de l'inventaire</h1>
 
       <TableAPI
      endpoint="items"
@@ -40,7 +30,8 @@
       :columns= "[
         {
           field: 'itemNumber',
-          label: 'Nombre'
+          label: 'Quantité',
+          sortable: true
         },
         {
           field: 'name',
@@ -49,7 +40,7 @@
         },
         {
           field: 'price',
-          label: 'Prix',
+          label: 'Prix (PO)',
           sortable: true
         },
          {
@@ -66,16 +57,16 @@
       :customBody="{}"
       :redirectURL= "this.$route.path + '/items'"
       />
-      </div>
+
   </section>
+  </div>
 </template>
 
 <script>
-import DetailAPI from '../components/DetailAPI.vue';
 import TableAPI from '../components/TableAPI.vue';
 
 export default {
-  components: { DetailAPI, TableAPI},
+  components: { TableAPI},
   name: "InventoryDetails",
   methods: {
   },
