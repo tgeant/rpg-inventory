@@ -45,7 +45,8 @@
           v-slot="props"
           :sortable="column.sortable"
         >
-          {{ getValueField(props.row,column.field) }}
+          <div v-if="!column.isButton"> {{ getValueField(props.row,column.field) }} </div>
+          <div v-if="column.isButton"><b-button type="is-primary" @click="callbackButton(props.row)" > {{ getValueField(props.row,column.field) }}</b-button>  </div>
         </b-table-column>
 
         <b-table-column 
@@ -77,7 +78,8 @@ export default {
   ,"labelButtonNew"
   , "customParams",
   "redirectURL",
-  "forceEdit"],
+  "forceEdit",
+  "callback"],
   data() {
     return {
       data: [],
@@ -93,6 +95,10 @@ export default {
     };
   },
   methods: {
+
+    callbackButton(row){
+      this.$emit('clickButton', row);
+    },
 
     getValueField(row,field){
 
@@ -149,14 +155,16 @@ export default {
               new Date(item.createdAt).toLocaleTimeString())
           : (item.createdAt = "unknown");
 
-          //TODO: transform data
-
         // For each item, is user authorized to modify ?
         item.readOnly = !this.forceEdit && !(ApiHandlerService.isCurrentUserAdmin() || JSON.parse(localStorage.user).id == item.author.id);
 
         // Push to the table data
         this.data.push(item);
       });
+
+      if(this.callback)
+        this.callback(this.data);
+
       this.loading = false;
     },
 

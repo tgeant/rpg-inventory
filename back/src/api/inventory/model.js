@@ -39,6 +39,7 @@ inventorySchema.methods = {
   }
 }
 
+
 inventorySchema.pre('remove', function(next) {
   // EntityRef.find({ 'inventory': this.id }, (err,array) => { array.forEach((element)=>element.remove()) });
   Item.find({ 'inventory': this.id }, (err,array) => { array.forEach((element)=>element.remove()) });
