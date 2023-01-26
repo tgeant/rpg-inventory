@@ -28,6 +28,11 @@
           type: 'textarea'
         },
         {
+          field: 'category',
+          label: 'Categorie',
+          type: 'text'
+        },
+        {
           field: 'weight',
           label: 'Poids',
           type: 'number',

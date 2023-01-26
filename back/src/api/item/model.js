@@ -15,6 +15,10 @@ const itemSchema = new Schema({
     type: String,
     required: true
   },
+  category: {
+    type: String,
+    required: true
+  },
   weight: {
     type: Number,
     required: true
@@ -44,6 +48,7 @@ itemSchema.methods = {
       itemNumber: this.itemNumber,
       name: this.name,
       description: this.description,
+      category : this.category,
       weight: this.weight,
       price: this.price,
       inventory: this.inventory  ? this.inventory : {"id": "Deleted"},
@@ -63,7 +68,7 @@ itemSchema.pre('remove', function(next) {
   next();
 });
 
-itemSchema.plugin(mongooseKeywords, {paths: ['name']})
+itemSchema.plugin(mongooseKeywords, {paths: ['name','description','category']})
 itemSchema.plugin(idValidator)
 const model = mongoose.model('Item', itemSchema)
 

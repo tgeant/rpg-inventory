@@ -19,7 +19,7 @@
      :customParams="{ inventory: this.$route.params.id }"
      labelSearch="Recherche"
      labelButtonSearch="Rechercher"
-     placeholderSearch="Nom de l'item"
+     placeholderSearch="Nom, description ou catégorie de l'item"
      labelButtonNew="Nouvel item"
      :forceEdit=true
       :columns= "[
@@ -34,9 +34,18 @@
           sortable: true
         },
         {
-          field: 'price',
-          label: 'Prix (PO)',
+          field: 'category',
+          label: 'Categorie',
           sortable: true
+        },
+        {
+          field: 'price',
+          label: 'Prix unitaire',
+          sortable: true
+        },
+        {
+          field: 'totalPrice',
+          label: 'Prix total'
         },
          {
           field: 'weight',
@@ -55,7 +64,7 @@
       ]" 
       :customBody="{}"
       :redirectURL= "this.$route.path + '/items'"
-      :callback= "(data) => {  data.forEach((item) => {item['totalWeight'] = Math.round(item.itemNumber*item.weight*100)/100;}) }"
+      :callback= "(data) => {  data.forEach((item) => {item['totalWeight'] = Math.round(item.itemNumber*item.weight*100)/100; item['totalPrice'] = Math.round(item.itemNumber*item.price*100)/100;}) }"
       v-on:clickButton="doSomething"
       />
 

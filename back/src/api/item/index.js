@@ -6,7 +6,7 @@ import { schema } from './model'
 export Item, { schema } from './model'
 
 const router = new Router()
-const { itemNumber, name, description, weight, price, inventory } = schema.tree
+const { itemNumber, name, description, category, weight, price, inventory } = schema.tree
 
 /**
  * @api {post} /items Create item
@@ -23,7 +23,7 @@ const { itemNumber, name, description, weight, price, inventory } = schema.tree
  * @apiError 404 Item not found.
  */
 router.post('/',
-  body({ itemNumber, name, description, weight, price, inventory }),
+  body({ itemNumber, name, description, category, weight, price, inventory }),
   create)
 
 /**
@@ -69,7 +69,7 @@ router.get('/:id',
  * @apiError 404 Item not found.
  */
 router.put('/:id',
-  body({ itemNumber, name, description, weight, price, inventory }),
+  body({ itemNumber, name, description, category, weight, price, inventory }),
   update)
 
 /**
