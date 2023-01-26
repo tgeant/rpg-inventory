@@ -40,6 +40,7 @@ export default {
       // Récupérer les données au démarrage de la page
       ApiHandlerService.getById(this.endpoint, this.id, {}, ({ data }) => {
         this.data = data;
+        this.$emit('onDataLoaded', data);
 
         this.readOnly = !this.forceEdit && (!(ApiHandlerService.isCurrentUserAdmin() || data.author ? (JSON.parse(localStorage.user).id == data.author.id) : false));
       });

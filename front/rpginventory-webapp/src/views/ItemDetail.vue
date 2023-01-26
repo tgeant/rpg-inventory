@@ -48,17 +48,85 @@
       :customBody="{
         inventory: this.$route.params.idInventory
       }"
+      v-on:onDataLoaded="getItem"
       />
+
+
+  <h1 class="title">Transférer à</h1>
+    <div class="columns is-mobile is-centered">
+      <div class="column is-half">
+      <b-field label="Transférer l'item à ">
+            <b-select placeholder="Selectionner un inventaire" v-on:input="selectInventory">
+                <option
+                    v-for="option in inventories"
+                    :value="option.id"
+                    :key="option.id">
+                    {{ option.name }}
+                </option>
+            </b-select>
+        </b-field>
+
+        <p class="control">
+          <b-button label="Transférer" type="is-primary" @click="transfer()"/>
+        </p>
+      </div>
+    </div>
+
   </section>
 </template>
 
 <script>
 import DetailAPI from '../components/DetailAPI.vue';
+import ApiHandlerService from "../services/ApiHandlerService";
+import { ToastProgrammatic as Toast } from "buefy";
 
 export default {
   components: { DetailAPI},
   name: "ItemDetail",
+  data(){
+      return {
+        inventories: [],
+        selectedInvetoryId: '',
+        item: {}
+      }
+    },
   methods: {
+    selectInventory(value){
+      this.selectedInvetoryId = value;
+    },
+    transfer(){
+
+      if(this.selectedInvetoryId!=''){
+      this.item.inventory = this.selectedInvetoryId;
+
+      ApiHandlerService.put(
+        "items",
+        this.item.id,
+        this.item,
+        () => {
+          Toast.open({
+            message: "Mise à jour réussi !",
+            type: "is-success",
+          });
+
+           this.$router.back();
+        }
+        );
+      }
+    },
+    getItem(data){
+      this.item = data;
+    }
+  },
+  mounted() {
+    ApiHandlerService.getList(
+        "inventories",
+        [],
+        ({ data })=> {
+          this.inventories = data.rows;
+        }
+      );
+
   },
 };
 </script>

@@ -48,11 +48,6 @@
           label: 'Poids total'
         },
         {
-          field: 'transfer',
-          label: 'Transferer',
-          isButton: true
-        },
-        {
           field: 'createdAt',
           label: 'Date de création',
           sortable: true
@@ -60,7 +55,7 @@
       ]" 
       :customBody="{}"
       :redirectURL= "this.$route.path + '/items'"
-      :callback= "(data) => {  data.forEach((item) => {item['totalWeight'] = Math.round(item.itemNumber*item.weight*100)/100; item['transfer']='transférer'}) }"
+      :callback= "(data) => {  data.forEach((item) => {item['totalWeight'] = Math.round(item.itemNumber*item.weight*100)/100;}) }"
       v-on:clickButton="doSomething"
       />
 
