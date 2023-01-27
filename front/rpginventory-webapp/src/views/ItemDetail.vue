@@ -30,7 +30,8 @@
         {
           field: 'category',
           label: 'Categorie',
-          type: 'text'
+          type: 'select',
+          options: ['Objets Précieux', 'Arme', 'Equipement', 'Nourriture', 'Potion', 'Parchemin']
         },
         {
           field: 'weight',
@@ -56,7 +57,7 @@
       v-on:onDataLoaded="getItem"
       />
 
-
+  <div v-if="this.$route.params.id!='create'">
   <h1 class="title">Transférer à</h1>
     <div class="columns is-mobile is-centered">
       <div class="column is-half">
@@ -75,7 +76,9 @@
           <b-button label="Transférer" type="is-primary" @click="transfer()"/>
         </p>
       </div>
+      </div>
     </div>
+
 
   </section>
 </template>

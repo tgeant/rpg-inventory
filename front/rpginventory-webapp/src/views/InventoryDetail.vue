@@ -63,7 +63,8 @@
         }, 
       ]" 
       :customBody="{}"
-      :redirectURL= "this.$route.path + '/items'"
+      :redirectURL_edit= "this.$route.path + '/items'"
+      :redirectURL_create= "this.$route.path + '/items/create'"
       :callback= "(data) => {  data.forEach((item) => {item['totalWeight'] = Math.round(item.itemNumber*item.weight*100)/100; item['totalPrice'] = Math.round(item.itemNumber*item.price*100)/100;}) }"
       v-on:clickButton="doSomething"
       />

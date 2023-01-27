@@ -26,7 +26,8 @@
           sortable: true
         }, 
       ]" 
-      redirectURL="/inventories" />
+      redirectURL_create="/inventories/create/edit"
+      redirectURL_edit="/inventories" />
   </section>
 </template>
 

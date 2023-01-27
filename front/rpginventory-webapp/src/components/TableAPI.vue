@@ -52,7 +52,7 @@
         <b-table-column 
         field="actions" label="Actions" width="200" v-slot="props">
           <div class="buttons">
-                <b-button type="is-primary" @click="show(props.row)" > 
+                <b-button type="is-primary" @click="edit(props.row)" > 
                   <b-icon  v-if="!props.row.readOnly" icon="pencil"></b-icon> 
                   <b-icon  v-if="props.row.readOnly" icon="eye-outline"></b-icon> 
                   </b-button>
@@ -77,7 +77,8 @@ export default {
   "labelSearch", "labelButtonSearch", "placeholderSearch"
   ,"labelButtonNew"
   , "customParams",
-  "redirectURL",
+  "redirectURL_create",
+   "redirectURL_edit",
   "forceEdit",
   "callback"],
   data() {
@@ -196,11 +197,8 @@ export default {
     refresh() {
       this.loadAsyncData();
     },
-    show(row) {
-      this.$router.push(this.redirectURL + "/"+ row.id);
-    },
     edit(row) {
-      this.$router.push(this.redirectURL + "/"+ row.id + "/edit");
+      this.$router.push(this.redirectURL_edit + "/"+ row.id);
     },
     remove(row) {
       ApiHandlerService.delete(
@@ -210,7 +208,7 @@ export default {
       );
     },
     create() {
-      this.$router.push(this.redirectURL + "/create");
+      this.$router.push(this.redirectURL_create);
     },
   },
   filters: {

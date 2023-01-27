@@ -7,7 +7,16 @@
         v-for="(column, index) in columns"
         :key="index"
         :label="column.label">
-            <b-input :type="column.type" v-model="data[column.field]" :readonly="readOnly" 
+            <b-select v-if="column.type=='select'" v-model="data[column.field]">
+                <option 
+                    v-for="option in column.options"
+                    :value="option"
+                    :key="option">
+                    {{ option}}
+                </option>
+            </b-select>
+            <b-input v-else
+            :type="column.type" v-model="data[column.field]" :readonly="readOnly" 
             :step="column.step" :min="column.min" :max="column.max"></b-input>
         </b-field>
 
