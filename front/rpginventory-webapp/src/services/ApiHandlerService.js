@@ -8,7 +8,7 @@ import { ToastProgrammatic as Toast } from "buefy";
 export default {
   config() {
     return {
-      baseUrl: "http://localhost:9000",
+      baseUrl: "http://vps-314109d8.vps.ovh.net:8081",
       configAPI: {
         headers: { Authorization: `Bearer ${localStorage.token}` },
       },
