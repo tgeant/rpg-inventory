@@ -15,12 +15,14 @@
       </section>
       <section class="section">
       <TableAPI
+      ref="table"
      endpoint="items"
      :customParams="{ inventory: this.$route.params.id }"
      labelSearch="Recherche"
      labelButtonSearch="Rechercher"
      placeholderSearch="Nom, description ou catégorie de l'item"
      labelButtonNew="Nouvel item"
+     fieldNameForDelete="name"
      :forceEdit=true
       :columns= "[
         {
@@ -66,7 +68,6 @@
       :redirectURL_edit= "this.$route.path + '/items'"
       :redirectURL_create= "this.$route.path + '/items/create'"
       :callback= "(data) => {  data.forEach((item) => {item['totalWeight'] = Math.round(item.itemNumber*item.weight*100)/100; item['totalPrice'] = Math.round(item.itemNumber*item.price*100)/100;}) }"
-      v-on:clickButton="doSomething"
       />
 
   </section>
@@ -81,9 +82,6 @@ export default {
   components: { TableAPI},
   name: "InventoryDetails",
   methods: {
-     doSomething(row){
-      console.log('test: '+row.id);
-     },
      getList(p){
       ApiHandlerService.getList("items", {page: p, inventory:this.$route.params.id}, ({ data }) => {
         if(data.rows.length>0){
@@ -113,6 +111,11 @@ export default {
       });
 
       this.getList(1);
+
+      /*var context = this;
+      setInterval(function(){ 
+        context.$refs.table.refresh();
+      }, 3000);*/
   },
 };
 </script>

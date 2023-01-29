@@ -13,6 +13,7 @@
      labelButtonSearch="Rechercher"
      placeholderSearch="Nom de l'inventaire"
      labelButtonNew="Nouvel inventaire"
+     fieldNameForDelete="name"
      :forceEdit = true
       :columns= "[
         {

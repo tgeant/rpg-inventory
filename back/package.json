@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "start": "node .",
-    "dev": "nodemon -i \"*.test.js\" .",
-    "prod": "cross-env NODE_ENV=production nodemon -i \"*.test.js\" -r dotenv-safe/config .",
+    "dev": "node .",
+    "prod": "cross-env NODE_ENV=production .",
     "docs": "apidoc -i src -o doc/apidoc && apidoc-markdown -p doc/apidoc -o DOCS.md",
     "postdocs": "open-cli doc/apidoc/index.html",
     "swagger": "apidoc-openapi-3 -i src"

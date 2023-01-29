@@ -9,13 +9,15 @@
         expanded
       ></b-input>
       <p class="control">
-        <b-button class="button is-primary" @click="refresh"
-          >{{labelButtonSearch}}</b-button
-        >
+        <b-button class="button is-primary" @click="refresh">{{
+          labelButtonSearch
+        }}</b-button>
       </p>
     </b-field>
     <section>
-      <b-button type="is-success" @click="create">{{labelButtonNew}}</b-button>
+      <b-button type="is-success" @click="create">{{
+        labelButtonNew
+      }}</b-button>
     </section>
 
     <section>
@@ -45,23 +47,36 @@
           v-slot="props"
           :sortable="column.sortable"
         >
-          <div v-if="!column.isButton"> {{ getValueField(props.row,column.field) }} </div>
-          <div v-if="column.isButton"><b-button type="is-primary" @click="callbackButton(props.row)" > {{ getValueField(props.row,column.field) }}</b-button>  </div>
+          <div v-if="!column.type">
+            {{ getValueField(props.row, column.field) }}
+          </div>
+          <div v-else-if="column.type=='button'">
+            <b-button type="is-primary" @click="callbackButton(props.row)">
+              {{ getValueField(props.row, column.field) }}</b-button
+            >
+          </div>
         </b-table-column>
 
-        <b-table-column 
-        field="actions" label="Actions" width="200" v-slot="props">
+        <b-table-column
+          field="actions"
+          label="Actions"
+          width="200"
+          v-slot="props"
+        >
           <div class="buttons">
-                <b-button type="is-primary" @click="edit(props.row)" > 
-                  <b-icon  v-if="!props.row.readOnly" icon="pencil"></b-icon> 
-                  <b-icon  v-if="props.row.readOnly" icon="eye-outline"></b-icon> 
-                  </b-button>
-                <b-button 
-                v-if="!props.row.readOnly"
-                type="is-danger" @click="remove(props.row)" > <b-icon icon="delete"></b-icon> </b-button>
-                </div>
-            </b-table-column>
-
+            <b-button type="is-primary" @click="edit(props.row)">
+              <b-icon v-if="!props.row.readOnly" icon="pencil"></b-icon>
+              <b-icon v-if="props.row.readOnly" icon="eye-outline"></b-icon>
+            </b-button>
+            <b-button
+              v-if="!props.row.readOnly"
+              type="is-danger"
+              @click="remove(props.row)"
+            >
+              <b-icon icon="delete"></b-icon>
+            </b-button>
+          </div>
+        </b-table-column>
       </b-table>
     </section>
   </div>
@@ -73,14 +88,20 @@
 import ApiHandlerService from "../services/ApiHandlerService";
 
 export default {
-  props: ["endpoint", "columns", 
-  "labelSearch", "labelButtonSearch", "placeholderSearch"
-  ,"labelButtonNew"
-  , "customParams",
-  "redirectURL_create",
-   "redirectURL_edit",
-  "forceEdit",
-  "callback"],
+  props: [
+    "endpoint",
+    "columns",
+    "labelSearch",
+    "labelButtonSearch",
+    "placeholderSearch",
+    "labelButtonNew",
+    "customParams",
+    "redirectURL_create",
+    "redirectURL_edit",
+    "forceEdit",
+    "callback",
+    "fieldNameForDelete"
+  ],
   data() {
     return {
       data: [],
@@ -92,28 +113,24 @@ export default {
       page: 1,
       perPage: 10,
       searchQuery: "",
-      readOnly: true
+      readOnly: true,
     };
   },
   methods: {
-
-    callbackButton(row){
-      this.$emit('clickButton', row);
+    callbackButton(row) {
+      this.$emit("clickButton", row);
     },
 
-    getValueField(row,field){
-
+    getValueField(row, field) {
       var fields = field.split(".");
 
       var node = row[fields[0]];
 
-      for(var i=1;i<fields.length;i++){
-        console.log("field "+field);
+      for (var i = 1; i < fields.length; i++) {
         node = node[fields[i]];
       }
 
       return node;
-
     },
     /*
      * Load async data
@@ -127,7 +144,7 @@ export default {
       };
 
       // Concat parameters with custom parameters
-      Object.assign(params,this.customParams);
+      Object.assign(params, this.customParams);
 
       this.loading = true;
 
@@ -157,14 +174,18 @@ export default {
           : (item.createdAt = "unknown");
 
         // For each item, is user authorized to modify ?
-        item.readOnly = !this.forceEdit && !(ApiHandlerService.isCurrentUserAdmin() || JSON.parse(localStorage.user).id == item.author.id);
+        item.readOnly =
+          !this.forceEdit &&
+          !(
+            ApiHandlerService.isCurrentUserAdmin() ||
+            JSON.parse(localStorage.user).id == item.author.id
+          );
 
         // Push to the table data
         this.data.push(item);
       });
 
-      if(this.callback)
-        this.callback(this.data);
+      if (this.callback) this.callback(this.data);
 
       this.loading = false;
     },
@@ -198,17 +219,28 @@ export default {
       this.loadAsyncData();
     },
     edit(row) {
-      this.$router.push(this.redirectURL_edit + "/"+ row.id);
+      this.$router.push(this.redirectURL_edit + "/" + row.id);
     },
     remove(row) {
-      ApiHandlerService.delete(
-        this.endpoint,
-        row.id,
-        this.loadAsyncData
+      this.confirmCustomDelete(row[this.fieldNameForDelete], () =>
+        ApiHandlerService.delete(this.endpoint, row.id, this.loadAsyncData)
       );
     },
     create() {
       this.$router.push(this.redirectURL_create);
+    },
+    confirmCustomDelete(name, callbackConfirm) {
+      this.$buefy.dialog.confirm({
+        title: "Suppression",
+        message:
+          "Êtes vous sûr de vouloir supprimer <b>" +
+          name +
+          "</b> ? Cette action ne peut pas être annulée.",
+        confirmText: "Supprimer",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: callbackConfirm,
+      });
     },
   },
   filters: {
