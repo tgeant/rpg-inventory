@@ -1,7 +1,7 @@
 module.exports = {
   devServer: {
     disableHostCheck: true,
-    allowedHosts: 'all',
+    allowedHosts: ['.vps.ovh.net'],
     host : '0.0.0.0'
   }
 }
