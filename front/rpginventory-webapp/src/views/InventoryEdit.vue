@@ -18,7 +18,7 @@
         },
         {
           field: 'weightMax',
-          label: 'Poids Max',
+          label: 'Poids Max (Kg)',
           type: 'number',
           min : '0'
         },

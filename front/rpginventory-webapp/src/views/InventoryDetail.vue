@@ -6,7 +6,7 @@
       <b-breadcrumb-item tag='router-link' :to="'/inventories/'+$route.params.id" active>Détail inventaire</b-breadcrumb-item>
     </b-breadcrumb>
 
-      <h1 class="title">Liste des items de {{inventoryName}} (Poids: {{ Math.round(weightInventory*100)/100}} / {{weightMaxInventory}})</h1>
+      <h1 class="title">Liste des items de {{inventoryName}} (Poids: {{ Math.round(weightInventory*100)/100}} / {{weightMaxInventory}}) Kg</h1>
         <p class="control">
         <b-button class="button is-primary" tag="router-link"
                 :to="$route.path + '/edit'"

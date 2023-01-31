@@ -35,7 +35,7 @@
         },
         {
           field: 'weight',
-          label: 'Poids',
+          label: 'Poids (Kg)',
           type: 'number',
           min: '0',
           step: '0.01'
